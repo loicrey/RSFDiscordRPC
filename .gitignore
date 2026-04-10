@@ -1,0 +1,57 @@
+# Visual Studio
+.vs/
+*.VC.db
+*.VC.opendb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# MSBuild / C++
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+ipch/
+*.obj
+*.iobj
+*.ipdb
+*.ilk
+*.pch
+*.pdb
+*.idb
+*.exp
+*.lib
+*.dll.recipe
+*.lastbuildstate
+*.tlog
+*.log
+*.tmp
+*.cache
+*.aps
+
+# Local developer config
+RSFDiscordRPC.local.props
+
+# Generated project and tooling files
+build/
+dist/
+compile_commands.json
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Testing/
+*.zip
+
+# Nested build output currently present in the repo tree
+RSFDiscordRPC/Debug/
+RSFDiscordRPC/Release/
+RSFDiscordRPC/
+
+# Web tooling
+web/node_modules/
+web/.wrangler/
+
+# OS
+Thumbs.db
+Desktop.ini

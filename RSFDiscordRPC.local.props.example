@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <!-- Absolute path to your local RallySimFans Plugins folder. -->
+    <!-- Required if you want Visual Studio or build-release.ps1 -DeployToPlugins to copy files into the game install. -->
+    <RSFPluginDir>C:\Path\To\RallySimFans\Plugins</RSFPluginDir>
+  </PropertyGroup>
+</Project>

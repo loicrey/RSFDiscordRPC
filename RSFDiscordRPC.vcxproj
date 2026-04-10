@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>18.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{a6f03805-2a87-471c-add5-3339cd900964}</ProjectGuid>
+    <RootNamespace>RSFDiscordRPC</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <Import Project="RSFDiscordRPC.local.props" Condition="exists('RSFDiscordRPC.local.props')" />
+  <PropertyGroup>
+    <RSFPluginDir Condition="'$(RSFPluginDir)'==''"></RSFPluginDir>
+    <RSFPluginDataDir Condition="'$(RSFPluginDir)'!=''">$(RSFPluginDir)\RSFDiscordRPC</RSFPluginDataDir>
+  </PropertyGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;__SUPPORT_PLUGIN__=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)src\win32;$(ProjectDir)src\third_party\discord-rpc\include;$(ProjectDir)src\third_party\discord-rpc\src;$(ProjectDir)src\third_party\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not "$(RSFPluginDir)"=="" if exist "$(RSFPluginDir)" if not exist "$(RSFPluginDataDir)" mkdir "$(RSFPluginDataDir)"
+if not "$(RSFPluginDir)"=="" if exist "$(RSFPluginDir)" copy /Y "$(TargetPath)" "$(RSFPluginDir)\RSFDiscordRPC.dll"
+if not "$(RSFPluginDataDir)"=="" if exist "$(RSFPluginDataDir)" copy /Y "$(ProjectDir)src\config\RSFDiscordRPC.ini" "$(RSFPluginDataDir)\RSFDiscordRPC.ini"
+if exist "$(TargetDir)$(TargetName).pdb" if not "$(RSFPluginDataDir)"=="" if exist "$(RSFPluginDataDir)" copy /Y "$(TargetDir)$(TargetName).pdb" "$(RSFPluginDataDir)\RSFDiscordRPC.pdb"
+exit /b 0</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;__SUPPORT_PLUGIN__=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)src\win32;$(ProjectDir)src\third_party\discord-rpc\include;$(ProjectDir)src\third_party\discord-rpc\src;$(ProjectDir)src\third_party\rapidjson\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <EnableUAC>false</EnableUAC>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>if not "$(RSFPluginDir)"=="" if exist "$(RSFPluginDir)" if not exist "$(RSFPluginDataDir)" mkdir "$(RSFPluginDataDir)"
+if not "$(RSFPluginDir)"=="" if exist "$(RSFPluginDir)" copy /Y "$(TargetPath)" "$(RSFPluginDir)\RSFDiscordRPC.dll"
+if not "$(RSFPluginDataDir)"=="" if exist "$(RSFPluginDataDir)" copy /Y "$(ProjectDir)src\config\RSFDiscordRPC.ini" "$(RSFPluginDataDir)\RSFDiscordRPC.ini"
+exit /b 0</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\win32\framework.h" />
+    <ClInclude Include="src\win32\pch.h" />
+    <ClInclude Include="src\core\DataSourceManager.h" />
+    <ClInclude Include="src\core\GameData.h" />
+    <ClInclude Include="src\core\Logger.h" />
+    <ClInclude Include="src\core\PluginConfig.h" />
+    <ClInclude Include="src\core\PluginRuntime.h" />
+    <ClInclude Include="src\core\StringUtils.h" />
+    <ClInclude Include="src\discord\DiscordManager.h" />
+    <ClInclude Include="src\rbr\IPlugin.h" />
+    <ClInclude Include="src\rbr\IRBRGame.h" />
+    <ClInclude Include="src\rbr\RBRPlugin.h" />
+    <ClInclude Include="src\sources\IDataSource.h" />
+    <ClInclude Include="src\sources\RsfContextSource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\win32\dllmain.cpp" />
+    <ClCompile Include="src\win32\pch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\core\Logger.cpp" />
+    <ClCompile Include="src\core\PluginConfig.cpp" />
+    <ClCompile Include="src\core\PluginRuntime.cpp" />
+    <ClCompile Include="src\discord\DiscordManager.cpp" />
+    <ClCompile Include="src\rbr\RBRPlugin.cpp" />
+    <ClCompile Include="src\sources\RsfContextSource.cpp" />
+    <ClCompile Include="src\third_party\discord-rpc\src\connection_win.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\third_party\discord-rpc\src\discord_register_win.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\third_party\discord-rpc\src\discord_rpc.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\third_party\discord-rpc\src\rpc_connection.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\third_party\discord-rpc\src\serialization.cpp">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

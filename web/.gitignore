@@ -1,0 +1,11 @@
+/data/
+/node_modules/
+/.wrangler/
+/scripts/data/*
+!/scripts/data/.gitkeep
+!/scripts/data/cars/
+!/scripts/data/stages/
+/scripts/data/cars/*
+!/scripts/data/cars/.gitkeep
+/scripts/data/stages/*
+!/scripts/data/stages/.gitkeep
