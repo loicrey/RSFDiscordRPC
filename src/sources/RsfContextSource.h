@@ -42,6 +42,7 @@ namespace rsf
 
         std::filesystem::path resolveGameRoot() const;
         void ensureMetadataLoaded();
+        void refreshSlotCarMappingsIfNeeded();
         void loadStageMappings(const std::filesystem::path& gameRoot);
         void loadCarMappings(const std::filesystem::path& gameRoot);
         void loadSlotCarMappings(const std::filesystem::path& gameRoot);
@@ -52,6 +53,8 @@ namespace rsf
         std::filesystem::path gameRoot_;
         bool metadataLoaded_ = false;
         bool available_ = false;
+        bool slotCarMappingsLoaded_ = false;
+        std::filesystem::file_time_type slotCarsIniWriteTime_{};
         std::unordered_map<std::int32_t, StageEntry> stagesByRbrId_;
         std::unordered_map<std::int32_t, CarEntry> carsByRsfId_;
         std::array<SlotCarEntry, kCarSlotCount> slotCarsBySlotId_{};

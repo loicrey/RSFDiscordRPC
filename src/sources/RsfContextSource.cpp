@@ -465,6 +465,8 @@ namespace rsf
             return false;
         }
 
+        refreshSlotCarMappingsIfNeeded();
+
         const std::optional<MemoryStageState> memoryState = TryReadMemoryStageState();
         const bool memoryIsValid = memoryState.has_value() && memoryState->isValid;
         const bool memorySaysStage = memoryIsValid && memoryState->isOnStage;
@@ -642,6 +644,30 @@ namespace rsf
             " cars=" + std::to_string(carsByRsfId_.size()));
     }
 
+    void RsfContextSource::refreshSlotCarMappingsIfNeeded()
+    {
+        const std::filesystem::path carsIniPath = gameRoot_ / "Cars" / "Cars.ini";
+        std::error_code error;
+        const bool exists = std::filesystem::exists(carsIniPath, error);
+        if (error || !exists)
+        {
+            return;
+        }
+
+        const auto currentWriteTime = std::filesystem::last_write_time(carsIniPath, error);
+        if (error)
+        {
+            return;
+        }
+
+        if (slotCarMappingsLoaded_ && currentWriteTime == slotCarsIniWriteTime_)
+        {
+            return;
+        }
+
+        loadSlotCarMappings(gameRoot_);
+    }
+
     void RsfContextSource::loadStageMappings(const std::filesystem::path& gameRoot)
     {
         const std::filesystem::path path = gameRoot / "rsfdata" / "cache" / "stages_data.json";
@@ -715,6 +741,7 @@ namespace rsf
         const std::filesystem::path carsIniPath = gameRoot / "Cars" / "Cars.ini";
         if (!std::filesystem::exists(carsIniPath))
         {
+            slotCarMappingsLoaded_ = false;
             RSF_LOG("RsfContextSource could not open Cars\\Cars.ini.");
             return;
         }
@@ -754,6 +781,14 @@ namespace rsf
 
             slotCarsBySlotId_[static_cast<std::size_t>(carSlotId)] = std::move(entry);
         }
+
+        std::error_code error;
+        slotCarsIniWriteTime_ = std::filesystem::last_write_time(carsIniPath, error);
+        slotCarMappingsLoaded_ = !error;
+        RSF_LOG(
+            slotCarMappingsLoaded_
+                ? "RsfContextSource slot car mappings reloaded from Cars\\Cars.ini."
+                : "RsfContextSource slot car mappings reloaded, but Cars\\Cars.ini write time could not be read.");
     }
 
     std::string RsfContextSource::resolveStageNameByRbrId(std::int32_t rbrStageId) const
