@@ -22,6 +22,10 @@ The packaged config file is [src/config/RSFDiscordRPC.ini](src/config/RSFDiscord
 - `IncognitoMode`: hides session details and publishes a minimal presence
 - `DebugLogging`: enables or disables plugin debug logging
 
+## Installation
+
+Extract the release zip into the game's `Plugins` folder, then enable `RSFDiscordRPC` in the RallySimFans launcher before starting the game.
+
 ## Website
 
 `web/` contains the presentation site and the public static images used by Discord Rich Presence.
