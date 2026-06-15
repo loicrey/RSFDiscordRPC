@@ -30,8 +30,9 @@ Extract the release zip into the game's `Plugins` folder, then enable `RSFDiscor
 
 `web/` contains the presentation site and the public static images used by Discord Rich Presence.
 The site is hosted on Cloudflare Workers and is available at [rsfdiscordrpc.loicrey.com](https://rsfdiscordrpc.loicrey.com/).
-It also serves the stage and car images used by the plugin because Discord only allows 300 application assets.
-The RallySimFans website assets are not in the format needed for this Rich Presence integration, and keeping the images in `web/` makes it easier to add and publish new ones.
+It also serves the stage and car image URLs used by the plugin because Discord only allows 300 application assets.
+Car and stage image URLs are handled by the Worker, fetched from RallySimFans, center-cropped, upscaled to `512x512`, encoded as JPEG, and cached by Cloudflare.
+Other public assets are served from `web/assets/`.
 
 ## About This Project
 

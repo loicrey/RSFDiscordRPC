@@ -58,13 +58,10 @@ Without `RSFDiscordRPC.local.props`, builds and packaging still work, but nothin
 
 - Keep the site static-first and English-only for code, UI text, comments, and documentation.
 - The site is deployed on Cloudflare Workers and is publicly served at [rsfdiscordrpc.loicrey.com](https://rsfdiscordrpc.loicrey.com/).
-- The site also serves the stage and car images used by the plugin because Discord only allows 300 application assets.
-- Do not depend on RallySimFans website assets for Rich Presence images; they are not in the required format, and publishing images from `web/` keeps new additions simple.
+- The site also serves the stage and car image URLs used by the plugin because Discord only allows 300 application assets.
+- Car and stage image URLs are proxied by the Worker from `www.rallysimfans.hu/rbr/images/<type>/<id>.jpg`, then decoded, center-cropped, resized to `512x512`, and encoded as JPEG in the Worker.
 - Presentation assets live under `web/assets/`.
-- RPC images are published from `web/assets/images/`.
-- Source images for conversion belong in `web/scripts/data/cars` and `web/scripts/data/stages`.
-- Converted images are written to `web/assets/images/cars` and `web/assets/images/stages`.
-- Cars and stages are center-cropped to `512x512` and exported as `.jpg`.
+- Static fallback RPC images, if ever needed, belong under `web/assets/images/`.
 
 Install dependencies:
 
@@ -73,12 +70,6 @@ cd web
 npm install
 ```
 
-Run the image converter:
-
-```bash
-cd web
-npm run process-images
-```
 
 ## Repository Hygiene
 

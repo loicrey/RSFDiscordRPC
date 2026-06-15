@@ -3,7 +3,7 @@ name: Deploy site
 on:
   push:
     branches:
-      - master
+      - "**"
     paths:
       - "web/**"
       - ".github/workflows/deploy-site.yml"
@@ -21,10 +21,37 @@ jobs:
             web
           sparse-checkout-cone-mode: true
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install dependencies
+        working-directory: web
+        run: npm ci
+
+      - name: Test
+        working-directory: web
+        run: npm test
+
+      - name: Pick deployment target
+        id: target
+        shell: bash
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "master" ]; then
+            echo 'command=deploy --env=' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          branch=$(echo "${GITHUB_REF_NAME}" | tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9-]+/-/g; s/^-+|-+$//g' | cut -c1-40)
+          echo "command=deploy --env preview --name rsfdiscordrpc-$branch" >> "$GITHUB_OUTPUT"
+
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: web
-          command: deploy
+          command: ${{ steps.target.outputs.command }}

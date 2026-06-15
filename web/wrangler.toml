@@ -1,7 +1,19 @@
 name = "rsfdiscordrpc"
+main = "src/worker.js"
 compatibility_date = "2026-04-10"
 workers_dev = false
 preview_urls = false
 
 [assets]
 directory = "./assets"
+binding = "ASSETS"
+run_worker_first = ["/images/cars/*.jpg", "/images/stages/*.jpg"]
+
+[env.preview]
+workers_dev = true
+preview_urls = true
+
+[env.preview.assets]
+directory = "./assets"
+binding = "ASSETS"
+run_worker_first = ["/images/cars/*.jpg", "/images/stages/*.jpg"]
