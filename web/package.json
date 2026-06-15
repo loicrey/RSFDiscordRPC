@@ -1,17 +1,20 @@
 {
   "name": "rsfdiscordrpc-web",
   "private": true,
+  "type": "module",
   "version": "1.0.0",
   "description": "Presentation website and public asset registry for RSFDiscordRPC.",
   "scripts": {
-    "process-images": "node scripts/process-images.js",
+    "test": "node src/worker.test.js",
     "dev": "wrangler dev",
-    "deploy": "wrangler deploy"
-  },
-  "dependencies": {
-    "sharp": "^0.34.2"
+    "devr": "wrangler dev --remote",
+    "deploy": "wrangler deploy --env="
   },
   "devDependencies": {
     "wrangler": "^4.11.1"
+  },
+  "dependencies": {
+    "@jsquash/jpeg": "^1.6.0",
+    "@jsquash/resize": "^2.1.1"
   }
 }
